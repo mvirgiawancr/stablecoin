@@ -28,13 +28,7 @@ contract DSCEngineTest is Test {
         deployer = new DeployDSC();
 
         (dsc, dscEngine, helperConfig) = deployer.run();
-        (
-            ethUsdPriceFeed,
-            btcUsdPriceFeed,
-            weth,
-            wbtc,
-            deployerKey
-        ) = helperConfig.activeNetworkConfig();
+        (ethUsdPriceFeed, btcUsdPriceFeed, weth, wbtc, deployerKey) = helperConfig.activeNetworkConfig();
 
         ERC20Mock(weth).mint(address(USER), STARTING_ERC20_BALANCE);
     }
@@ -50,9 +44,7 @@ contract DSCEngineTest is Test {
         vm.startPrank(USER);
         ERC20Mock(weth).approve(address(dscEngine), 0);
 
-        vm.expectRevert(
-            DSCEngine.DSCEngine__AmountMustBeGreaterThanZero.selector
-        );
+        vm.expectRevert(DSCEngine.DSCEngine__AmountMustBeGreaterThanZero.selector);
         dscEngine.depositCollateral(weth, 0);
         vm.stopPrank();
     }
